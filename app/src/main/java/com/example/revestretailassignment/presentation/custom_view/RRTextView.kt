@@ -12,6 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.revestretailassignment.ui.theme.Typography
+import com.example.revestretailassignment.ui.theme.primary
 
 @Composable
 fun RRTextView(
@@ -33,6 +34,7 @@ fun RRTextView(
 
 @Composable
 fun KeyValuePair(
+    modifier: Modifier = Modifier,
     key: String,
     keyColor: Color = Color.Black,
     value: String,
@@ -40,6 +42,7 @@ fun KeyValuePair(
     horizontalArrangement:Arrangement.Horizontal = Arrangement.spacedBy(8.dp),
 ) {
     Row(
+        modifier = modifier,
         horizontalArrangement = horizontalArrangement,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -49,9 +52,9 @@ fun KeyValuePair(
 }
 
 fun getStockColor(stock: Int): Pair<Color, String> {
-    return if (stock > 20) {
+    return if (stock > 40) {
         Pair(
-            Color.Green,
+            primary,
             "In Stock"
         )
     } else if (stock <= 0) {
@@ -61,6 +64,16 @@ fun getStockColor(stock: Int): Pair<Color, String> {
             Color.Magenta,
             "Limited stock"
         )
+    }
+}
+
+fun getRatingColor(rating: Double): Color {
+    return if (rating >= 4) {
+        Color.Green
+    } else if (rating >= 2) {
+        Color.Magenta
+    } else {
+        Color.Red
     }
 }
 

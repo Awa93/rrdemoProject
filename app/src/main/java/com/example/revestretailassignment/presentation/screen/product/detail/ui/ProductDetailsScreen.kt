@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.revestretailassignment.domain.model.Product
@@ -26,11 +27,13 @@ import com.example.revestretailassignment.presentation.custom_view.KeyValuePair
 import com.example.revestretailassignment.presentation.custom_view.RRTextView
 import com.example.revestretailassignment.presentation.custom_view.RRViewPager
 import com.example.revestretailassignment.presentation.custom_view.ShowLoaderIndicator
+import com.example.revestretailassignment.presentation.custom_view.getRatingColor
 import com.example.revestretailassignment.presentation.custom_view.getStockColor
 import com.example.revestretailassignment.presentation.screen.product.detail.ProductDetailViewState
 import com.example.revestretailassignment.presentation.screen.product.detail.viewmodel.ProductDetailsViewModel
 import com.example.revestretailassignment.presentation.screen.product.list.ui.ShowErrorMessage
 import com.example.revestretailassignment.ui.theme.PurpleGrey80
+import com.example.revestretailassignment.ui.theme.primary
 import org.koin.androidx.compose.koinViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -97,18 +100,38 @@ fun DescriptionSection(product: Product) {
         ) {
             val stock = getStockColor(product.stock)
 
-            KeyValuePair(key = product.brand.titleCase(), value = product.title)
-            RRTextView(text = stock.second, color = stock.first)
+            KeyValuePair(
+                key = product.brand.titleCase(),
+                value = product.title,
+                keyColor = primary,
+                valueColor = primary
+            )
+            RRTextView(
+                text = stock.second,
+                color = stock.first
+            )
         }
-
         Spacer(modifier = Modifier.height(8.dp))
-        RRTextView(text = product.description)
+        RRTextView(text = product.category.titleCase())
         Spacer(modifier = Modifier.height(8.dp))
-        KeyValuePair(key = "Price", value = "Rs.-${product.price}")
+        RRTextView(text = product.description.titleCase())
         Spacer(modifier = Modifier.height(8.dp))
-        RRTextView(text = "${product.discountPercentage}% Off")
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            KeyValuePair(key = "Price", value = "Rs. ${product.price}")
+            KeyValuePair(
+                key = "Rating",
+                keyColor = Color.Black,
+                value = "${product.rating}",
+                valueColor = getRatingColor(product.rating)
+            )
+        }
         Spacer(modifier = Modifier.height(8.dp))
-
+        RRTextView(text = "Offer ${product.discountPercentage}% Off")
+        Spacer(modifier = Modifier.height(8.dp))
     }
 }
 
