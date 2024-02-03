@@ -4,16 +4,16 @@ import com.example.revestretailassignment.application.AppConstant
 
 data class ProductsListUIModel(
     val products: List<Product>,
-    val total:Int,
-    val skip:Int,
-    val limit:Int
+    val total: Int,
+    val skip: Int,
+    val limit: Int
 )
 
 data class Product(
     val id: Int,
     val title: String,
     val description: String,
-    val price: Int,
+    val price: Double,
     val discountPercentage: Double,
     val rating: Double,
     val stock: Int,
@@ -23,12 +23,12 @@ data class Product(
     val images: List<String>,
 )
 
-fun getEmptyProduct():Product{
+fun getEmptyProduct(): Product {
     return Product(
         id = 0,
         title = AppConstant.EMPTY,
         description = AppConstant.EMPTY,
-        price = 0,
+        price = 0.0,
         discountPercentage = 0.0,
         rating = 0.0,
         stock = 0,

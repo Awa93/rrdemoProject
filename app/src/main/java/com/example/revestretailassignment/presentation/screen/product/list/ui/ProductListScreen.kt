@@ -41,6 +41,7 @@ import com.example.revestretailassignment.presentation.screen.product.detail.ui.
 import com.example.revestretailassignment.presentation.screen.product.list.ProductListViewState
 import com.example.revestretailassignment.presentation.screen.product.list.viewmodel.ProductListViewModel
 import com.example.revestretailassignment.ui.theme.PurpleGrey80
+import com.example.revestretailassignment.ui.theme.primary
 import org.koin.androidx.compose.koinViewModel
 
 /*
@@ -61,11 +62,14 @@ fun ProductListScreen(
             .background(PurpleGrey80)
     ) {
         Scaffold(topBar = {
-            AppToolBar(title = "Products", showNavigationIcon = false)
+            AppToolBar(
+                title = "Products",
+                showNavigationIcon = false
+            )
         }, content = {
             Column(
                 modifier = Modifier.padding(
-                    top = it.calculateTopPadding(), start = 16.dp, end = 16.dp, bottom = 16.dp
+                    top = it.calculateTopPadding()
                 )
             ) {
                 if (viewState.showLoadingIndicator.value) {
@@ -74,30 +78,17 @@ fun ProductListScreen(
                     if (viewState.isApiSuccess.value) {
                         ProductListPage(
                             viewState = viewState,
-                            onItemClick = { it ->
-                                navigation(it, navController)
+                            onItemClick = { product ->
+                                navigation(product, navController)
                             })
                     } else {
                         ShowErrorMessage()
                     }
                 }
-
             }
         })
     }
 
-}
-
-private fun navigation(it: Product, navController: NavHostController) {
-    val bundle = Bundle()
-    navController.currentBackStackEntry?.let { current ->
-        bundle.putInt(AppConstant.PRODUCT_ID_KEY, it.id)
-        bundle.putString(AppConstant.PRODUCT_TITLE_KEY, it.title)
-        val args = current.savedStateHandle
-        args[AppConstant.DATA_KEY] = bundle
-    }
-
-    navController.navigate(route = AppDestinations.PRODUCT_DETAIL_SCREEN)
 }
 
 @Composable
@@ -106,15 +97,18 @@ fun ShowErrorMessage() {
 }
 
 @Composable
-fun ProductListPage(viewState: ProductListViewState, onItemClick: (item: Product) -> Unit) {
+fun ProductListPage(
+    viewState: ProductListViewState,
+    onItemClick: (item: Product) -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxSize()
-            .padding(8.dp),
+            .padding(16.dp),
         state = rememberLazyListState(),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        itemsIndexed(viewState.products) { index, item ->
+        itemsIndexed(viewState.products) { _, item ->
             ProductItem(item) {
                 onItemClick(item)
             }
@@ -137,26 +131,54 @@ fun ProductItem(
         onClick = onItemClick
     ) {
         RRImageView(
-            url = product.images[0], contentDescription = "Product Image"
+            url = product.images[0],
+            contentDescription = "Product Image"
         )
         Column(modifier = Modifier.padding(all = 8.dp)) {
-            Divider(modifier = Modifier.height(1.dp)) //Here Divider to indicate the height of Image
+            Divider(
+                modifier = Modifier
+                    .height(2.dp)
+                    .background(primary)
+            ) //Here Divider to indicate the height of Image
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 5.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 val stock = getStockColor(product.stock)
-                KeyValuePair(key = product.brand.titleCase(), value = product.title)
-                RRTextView(text = stock.second, color = stock.first)
+                KeyValuePair(
+                    key = product.brand.titleCase(),
+                    value = product.title,
+                    keyColor = primary,
+                    valueColor = primary
+                )
+                RRTextView(
+                    text = stock.second,
+                    color = stock.first
+                )
             }
 
-            KeyValuePair(key = "Price", value = "Rs. ${product.price}")
+            KeyValuePair(
+                key = "Price",
+                value = "Rs. ${product.price}"
+            )
             RRTextView(text = product.description)
-
         }
-
     }
+}
+
+private fun navigation(it: Product, navController: NavHostController) {
+    val bundle = Bundle()
+    navController.currentBackStackEntry?.let { current ->
+        bundle.putInt(AppConstant.PRODUCT_ID_KEY, it.id)
+        bundle.putString(AppConstant.PRODUCT_TITLE_KEY, it.title)
+        val args = current.savedStateHandle
+        args[AppConstant.DATA_KEY] = bundle
+    }
+
+    navController.navigate(route = AppDestinations.PRODUCT_DETAIL_SCREEN)
 }
 
 

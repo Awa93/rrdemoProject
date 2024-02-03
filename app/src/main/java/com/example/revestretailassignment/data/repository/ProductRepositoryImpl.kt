@@ -2,8 +2,8 @@ package com.example.revestretailassignment.data.repository
 
 import com.example.revestretailassignment.data.network.RRApiResult
 import com.example.revestretailassignment.data.network.RRApiService
-import com.example.revestretailassignment.data.toUIModel
-import com.example.revestretailassignment.data.toUiModel
+import com.example.revestretailassignment.data.model.toUIModel
+import com.example.revestretailassignment.data.model.toUiModel
 import com.example.revestretailassignment.domain.model.Product
 import com.example.revestretailassignment.domain.model.ProductsListUIModel
 import com.example.revestretailassignment.domain.repository.ProductRepository

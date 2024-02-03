@@ -1,11 +1,14 @@
-package com.example.revestretailassignment.data
+package com.example.revestretailassignment.data.model
 
 import com.example.revestretailassignment.application.AppConstant.EMPTY
 import com.example.revestretailassignment.domain.model.Product
 import com.example.revestretailassignment.domain.model.ProductsListUIModel
 
 data class ProductsDataModel(
-    val products: List<ProductDataModel>?, val total: Int?, val skip: Int?, val limit: Int?
+    val products: List<ProductDataModel>?,
+    val total: Int?,
+    val skip: Int?,
+    val limit: Int?
 )
 
 data class ProductDataModel(
@@ -29,7 +32,7 @@ fun ProductsDataModel.toUIModel(): ProductsListUIModel {
             id = it.id ?: 0,
             title = it.title ?: EMPTY,
             description = it.description ?: EMPTY,
-            price = it.price ?: 0,
+            price = it.price?.toDouble() ?: 0.0,
             discountPercentage = it.discountPercentage ?: 0.0,
             rating = it.rating ?: 0.0,
             stock = it.stock ?: 0,
@@ -42,16 +45,19 @@ fun ProductsDataModel.toUIModel(): ProductsListUIModel {
     }
 
     return ProductsListUIModel(
-        products = list, total = this.total ?: 0, skip = this.skip ?: 0, limit = this.limit ?: 0
+        products = list,
+        total = this.total ?: 0,
+        skip = this.skip ?: 0,
+        limit = this.limit ?: 0
     )
 }
 
-fun ProductDataModel.toUiModel() : Product{
+fun ProductDataModel.toUiModel(): Product {
     return Product(
         id = this.id ?: 0,
         title = this.title ?: EMPTY,
         description = this.description ?: EMPTY,
-        price = this.price ?: 0,
+        price = this.price?.toDouble() ?: 0.0,
         discountPercentage = this.discountPercentage ?: 0.0,
         rating = this.rating ?: 0.0,
         stock = this.stock ?: 0,
@@ -60,5 +66,4 @@ fun ProductDataModel.toUiModel() : Product{
         thumbnail = this.thumbnail ?: EMPTY,
         images = this.images ?: emptyList(),
     )
-
 }

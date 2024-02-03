@@ -1,9 +1,7 @@
 package com.example.revestretailassignment.presentation.custom_view
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
-
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -19,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.revestretailassignment.R
 import com.example.revestretailassignment.ui.theme.Typography
+import com.example.revestretailassignment.ui.theme.primary
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -31,10 +30,9 @@ fun AppToolBar(
 
 ) {
     CenterAlignedTopAppBar(
-        modifier = modifier.background(Color.White),
-        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(Color.White),
+        colors = TopAppBarDefaults.centerAlignedTopAppBarColors(primary),
         title = {
-            RRTextView(text = title, style = Typography.bodyLarge)
+            RRTextView(text = title, style = Typography.bodyLarge, color = Color.White)
         },
         navigationIcon = {
             if (showNavigationIcon) {
@@ -52,7 +50,8 @@ fun AppToolBar(
                             .width(30.dp)
                             ,
                         painter = painterResource(id = icon),
-                        contentDescription = "Back Arrow"
+                        contentDescription = "Back Arrow",
+                        tint = Color.White
                     )
                 }
 
